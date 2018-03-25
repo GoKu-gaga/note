@@ -15,10 +15,15 @@
 - ffi只能调用C风格的模块。
 - 需要将C源码build成动态链接库以供调用，在Linux下将C源码build成.so文件，在windows下build成.dll文件
 
-## 三、如何使用node-ffi
+## 三、安装node-ffi
+
+``` bash
+npm install ffi
+```
+## 四、如何使用node-ffi
 简单例子：
 1. 我们的业务中由这么一个API，
-参数是一个short类型的端口号，一个int类型的波特率，返回小于0则便是失败，否则是机器的标识码，方法名是 `dc_init`
+参数是一个short类型的端口号，一个int类型的波特率，返回小于0则表示失败，否则是机器的标识码，方法名是 `dc_init`
 ``` c
 int USER_API dc_init(short port, int baud);
 ```
@@ -35,7 +40,7 @@ let lib = new FFI.Library(dllPath, {
   'dc_init': ['int', [shortType, 'int']]
 })
 
-let handle = dc.dc_init(2, 9600)
+let handle = lib.dc_init(2, 9600)
 console.log(handle)
 ```
 关于ref的详细api可以参看他们的官方文档：https://github.com/TooTallNate/ref
